@@ -58,12 +58,12 @@
         </div>
     </section>
 
-
     <div class="camera-video-container" id="camera-video-container">
         <video class="camera-video" id="camera-video" autoplay></video>
         <span id="v-close">
             <i class="bi bi-x-circle-fill" id="b-close"></i>
         </span>
+        <button id="flip">flip</button>
     </div>
 
     <%-include('./bottom-nav')%>
@@ -87,11 +87,13 @@
         var canvas = document.querySelector("#canvas")
         var ctx = canvas.getContext('2d')
         var currentStream = null
-
+        var flipButton = document.querySelector('#flip')
+        var currentFacingMode = 'user';  // 'user' refers to the front-facing camera (selfie camera)
         async function openCamera() {
             try {
                 if (navigator.mediaDevices.getUserMedia) {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode } });
+                    // const stream = await navigator.mediaDevices.getUserMedia({ video: true })
                     currentStream = stream
                     document.getElementById('camera-video-container').style.display = 'flex'
                     video.srcObject = stream
@@ -105,6 +107,20 @@
                 alert('Could not access the camera')
             }
         }
+
+        flipButton.addEventListener('click', async function() {
+    if (currentStream) {
+        // Stop the current stream tracks before switching
+        currentStream.getTracks().forEach(track => track.stop());
+    }
+
+    // Toggle between front and rear camera
+    currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+
+    // Restart the camera with the new facing mode
+    openCamera();
+});
+
 
         function scanQRCode() {
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
