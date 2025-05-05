@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANSACTION | USER</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/user/user.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <div class="header">
+                            <p class="text-white fs-2 fw-bold text-center py-3">TRANSACTION</p>
+                        </div>
+                        <% transaction.forEach((i)=>{ %>
+                            <% if(i.senderUpi == finder.upi){ %>
+                                <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
+                                    <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                    <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                    <p class="m-0 py-2">Sent To : <%= i.recieverUpi %></p>
+                                    <p class="m-0 py-2">Date : <%= i.date %></p>
+                                </div>
+                            <% }else{ %>
+                                <div class="transaction-card p-2 mt-2" style="background: green;">
+                                    <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                    <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                    <p class="m-0 py-2">Recieved From : <%= i.senderUpi %></p>
+                                    <p class="m-0 py-2">Date : <%= i.date %></p>
+                                </div>
+                            <% } %>
+                        <% }) %>
+                        <div class="nav-adjust"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3" id="sidebar">
+                    <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%-include('./bottom-nav')%>
+
+
+    <input type="hidden" id="user-id" value="<%=finder.id%>">
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('transaction').classList.add('sidebar-active')
+
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="text-transform: uppercase;"><%= reciever.name%> | SEND MONEY | USER</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/user/user.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <div class="header">
+                            <p class="text-white fs-2 fw-bold text-center py-3"><%= reciever.name %></p>
+                        </div>
+                        <div class="selected-upi-container">
+                            <form action="/sendmoney/<%= reciever.accountNumber %>/send" class="send-money-form py-4" method="post">
+                                <div class="row m-0 p-0">
+                                    <div class="col-10 col-md-8 offset-md-1">
+                                        <input type="number" placeholder="enter amount" name="amount" id="amount" class="send-money-input" required>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="send-money-button" type="button" id="send-money-button" onclick="pinOpen()">Pay</button>
+                                    </div>
+                                </div>
+                                <section class="pin-section" id="pin-section">
+                                    <div class="container-xxl">
+                                        <div class="row w-100 m-0 p-0 g-3">
+                                            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                                                <input type="password" placeholder="Enter PIN" id="pin" class="send-money-input" name="pin" required>
+                                            </div>
+                                            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                                                <button class="send-money-button" id="pay-button" type="submit">Pay</button>
+                                            </div>
+                                            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                                                <button class="close-pin-button" type="button" onclick="pinClose()">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </form>
+                            <% transaction.forEach((i)=>{ %>
+                                <% if(i.senderUpi == finder.upi){ %>
+                                    <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
+                                        <p class="m-0 py-2">Transaction id : <%= i.id %></p>
+                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                        <p class="m-0 py-2">Sent To : <%= i.recieverUpi %></p>
+                                        <p class="m-0 py-2">Date : <%= i.date %></p>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="transaction-card p-2 mt-2" style="background: green;">
+                                        <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                        <p class="m-0 py-2">Recieved From : <%= i.senderUpi %></p>
+                                        <p class="m-0 py-2">Date : <%= i.date %></p>
+                                    </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                        <div class="nav-adjust"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3" id="sidebar">
+                    <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <%-include('./bottom-nav')%>
+
+
+    
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('send-money').classList.add('sidebar-active')
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+        }
+
+        window.onbeforeunload = function() {
+            document.getElementById('loader-container').style.display = 'flex';
+        }
+
+        function pinOpen(){
+            if(document.getElementById('amount').value){
+                if(document.getElementById('amount').value > 0){
+                    document.getElementById('pin-section').style.display='flex'
+                }else{
+                    document.getElementById('amount').value=null
+                    alert('min amount to pay is 1 rs')
+                }
+            }else{
+                alert('enter amount to pay')
+            }
+        }
+
+        function pinClose(){
+            document.getElementById('pin-section').style.display='none'
+            document.getElementById('pin').value=null
+        }
+
+    </script>
+</body>
+
+</html>

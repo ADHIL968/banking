@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEND MONEY| USER</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/user/user.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <div class="header">
+                            <p class="text-white fs-2 fw-bold text-center py-3">SEND MONEY</p>
+                        </div>
+                        <div class="camera-container py-4 d-flex align-items-center justify-content-center">
+                            <button class="camera-button" id="camera-button" onclick="openCamera()">Scan QR</button>
+                        </div>
+                        <div class="upi-container">
+                            <div class="row m-0 p-0 g-3">
+                                <% upi.forEach((i)=>{ %>
+                                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="/sendmoney/<%= i.accountNumber %>/send" class="upi-anchor">
+                                            <div class="card upi-card p-2">
+                                                <img src="<%= i.photograph %>" class="card-img-top upi-image" alt="">
+                                                <p class="fw-bold text-center text-uppercase m-0 py-3">
+                                                    <%= i.name %>
+                                                </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="camera-video-container" id="camera-video-container">
+        <video class="camera-video" id="camera-video" autoplay></video>
+    </div>
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('send-money').classList.add('sidebar-active')
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+        }
+
+        window.onbeforeunload = function () {
+            document.getElementById('loader-container').style.display = 'flex';
+        }
+
+        function openCamera() {
+            try {
+                var video = document.querySelector("#camera-video");
+
+                if (navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ video: true })
+                        .then(function (stream) {
+                            document.getElementById('camera-video-container').style.display='flex'
+                            video.srcObject = stream;
+
+                            // Optional: stop the stream when the page unloads
+                            window.addEventListener('beforeunload', function () {
+                                let tracks = stream.getTracks();
+                                tracks.forEach(track => track.stop());
+                            });
+                        })
+                        .catch(function (err) {
+                            console.log("Error: " + err.message);
+                        });
+                } else {
+                    console.log("getUserMedia not supported on this browser.");
+                }
+
+            } catch (err) {
+                console.error('Error accessing the camera: ', err);
+                alert('Could not access the camera. Make sure you have granted permissions and that a camera is available.');
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

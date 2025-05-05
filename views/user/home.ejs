@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME | USER</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/user/user.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <div class="header">
+                            <p class="text-white fs-2 fw-bold text-center py-3">HOME</p>
+                        </div>
+
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">ACCOUNT NUMBER</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.accountNumber %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">NAME</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.name %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">EMAIL</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.email %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">MOBILE</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.mobile %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">DATE OF BIRTH</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.dob %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">AADHAR</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.aadhar %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">ADDRESS</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.house %> , <%= finder.street %> , <%= finder.pincode %> , <%= finder.district %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">UPI ID</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.upi %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">BALANCE</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.balance %>
+                            </li>
+                        </ul>
+                        <div class="container-fluid p-0 m-0 d-flex align-items-center justify-content-center">
+                            <img src="<%=a%>" alt="" style="width: 200px; height: 200px; display: block;"> 
+                        </div>
+                        <div class="nav-adjust"></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3" id="sidebar">
+                   <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <%-include('./bottom-nav')%>
+
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('home').classList.add('sidebar-active')
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+        }
+        window.onbeforeunload = function() {
+            document.getElementById('loader-container').style.display = 'flex';
+        };
+    </script>
+</body>
+
+</html>

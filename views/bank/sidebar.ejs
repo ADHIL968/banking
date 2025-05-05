@@ -1,0 +1,14 @@
+<div class="sidebar">
+    <!-- <div class="nav-adjust"></div> -->
+    <a href="/bank" class="side-brand">WELCOME ADMIN</a>
+    <a href="/bank" class="sidebar-item" id="home">HOME <% if(users.length > 0){  %>
+        <span class="notification"><%= users.length %></span>
+     <% } %></a>
+    <a href="/bank/accounts" class="sidebar-item" id="accounts">ACCOUNTS</a>
+    <a href="/bank/rejected" class="sidebar-item" id="rejected">REJECTED <% if(rejectedUser.length > 0){  %>
+        <span class="notification"><%= rejectedUser.length %></span>
+     <% } %></a>
+    <!-- <a href="" class="sidebar-item">hello</a>
+    <a href="" class="sidebar-item">hello</a> -->
+    <a href="/bank/logout" class="sidebar-item mt-5">Logout</a>
+</div>

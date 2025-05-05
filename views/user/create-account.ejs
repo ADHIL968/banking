@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATE ACCOUNT | USER</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/user/create-account.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <div class="cust-navbar"></div>
+
+    <% if(applied && !rejected){ %>
+        <div class="applied-section">
+            <p class="fw-bold fs-2">APPLIED FOR ACCOUNT</p>
+            <p class="fw-bold fs-3">waiting for approval...</p>
+            <a href="/logout" class="logout">Logout</a>
+        </div>
+    <% }else if(rejected){ %>
+        <div class="applied-section">
+            <p class="fw-bold fs-2">ACCOUNT WAS REJECTED</p>
+            <a href="/logout" class="logout">Logout</a>
+        </div>
+    <% } else { %>
+        <section class="create-account">
+            <div class="container-xxl">
+                <form action="/createaccount" method="post" enctype="multipart/form-data" class="form p-0 m-0" onsubmit="loader()">
+                    <div class="row m-0 p-0 g-3">
+                        <div class="col-12">
+                            <p class="text-center fw-bold fs-2 py-5 t-header">Create Account</p>
+                        </div>
+                        <div class="col-12">
+                            <p><span class="text-danger">*</span> fill all the fields to apply for an account</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="name">Full Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control b-input" id="name" name="name" placeholder="Enter full name" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="aadhar">Aadhar Number<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control b-input" id="aadhar" name="aadhar" placeholder="Enter adhar number" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="mobile">Mobile Number<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control b-input" id="mobile" name="mobile" placeholder="Enter mobile" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="dob">Date of Birth <span class="text-danger">*</span></label>
+                                <input type="date" id="dob" name="dob" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="house">House Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control b-input" id="house" name="house" placeholder="Enter House name" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="street">Street Name<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control b-input" id="street" name="street" placeholder="Enter street name" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="pincode">Pincode <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control b-input" id="pincode" name="pincode" placeholder="Enter pincode" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="district">District <span class="text-danger">*</span></label>
+                            <select class="form-select" id="district" name="district" required>
+                                <option value="" selected>select district</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="pin">UPI PIn <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control b-input" id="pin" name="pin" placeholder="Enter upi pin" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="photograph">Photograph <span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <input type="file" name="photograph" id="photograph" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="col-12 py-5 d-flex align-items-center justify-content-center">
+                            <button class="applynow-button">Apply Now</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    <% } %>
+
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.js"></script>
+    <script>
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+            // setTimeout(() => {
+            //     document.getElementById('msg').innerHTML = null
+            // }, 3000)
+        }
+        function loader() {
+            document.getElementById('loader-container').style.display = 'flex'
+        }
+        const keralaDistricts = [
+            "alappuzha",
+            "ernakulam",
+            "idukki",
+            "kannur",
+            "kasaragod",
+            "kollam",
+            "kottayam",
+            "kozhikode",
+            "malappuram",
+            "palakkad",
+            "pathanamthitta",
+            "thiruvananthapuram",
+            "thrissur",
+            "wayanad"
+        ]
+
+        var districtSelect = document.getElementById('district')
+        keralaDistricts.forEach((i) => {
+            let option = document.createElement('option')
+            option.setAttribute('value', i)
+            option.innerHTML = i
+            districtSelect.appendChild(option)
+        })
+
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        const fileInput = document.getElementById('photograph')
+        fileInput.addEventListener('change', function () {
+            var maxSize = 15000
+            const file = fileInput.files
+            console.log(file)
+            for(i in file){
+                if(file[i].size > maxSize){
+                    alert(`photograph size is too large! Maximum size is 15KB`);
+                    fileInput.value = '';
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

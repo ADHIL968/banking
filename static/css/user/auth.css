@@ -1,0 +1,32 @@
+:root {
+    --main-color: green;
+}
+
+.auth {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.b-input {
+    border-radius: 0px;
+}
+
+.b-input:focus {
+    box-shadow: none;
+    border: 1px solid var(--main-color);
+}
+
+
+.signup-button {
+    background: var(--main-color);
+    padding: 8px 50px;
+    border: none;
+    color: white;
+}
+
+.signup-button:hover {
+    background: rgb(9, 210, 9);
+}

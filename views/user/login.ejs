@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | USER</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/user/auth.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+    <div class="auth">
+        <div class="container-xxl">
+            <form action="/login" method="post" onsubmit="loader()">
+                <div class="row w-100 m-0 p-0 g-3">
+                    <div class="col-12">
+                        <div class="text-center fs-2 fw-bold t-header">Login Now</div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+                        <div class="form-group">
+                            <!-- <label for="password">Email</label> -->
+                            <div class="input-group">
+                                <input type="email" class="form-control b-input" placeholder="Enter email" id="email" name="email" required>
+                                <!-- <div class="input-group-append">
+                                    <button class="btn otp-button" type="button" id="otpbutton">GET OTP</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4">
+                        <div class="form-group">
+                            <!-- <label for="password">Password</label> -->
+                            <input type="password" class="form-control b-input" id="password" name="password" placeholder="Enter password" required>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <button class="signup-button">Login</button>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <a href="/signup">don't have an account!, signup now</a>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-center" id="msg" style="color: <%= color %>;">
+                            <%= msg %>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+         window.onload = function () {
+            document.getElementById('loader-container').style.display='none'
+            document.getElementById('email').value = localStorage.getItem('userEmail')
+            document.getElementById('password').value = localStorage.getItem('userPassword')
+            setTimeout(() => {
+                document.getElementById('msg').innerHTML = null
+            }, 3000)
+        }
+
+        function loader(){
+            document.getElementById('loader-container').style.display='flex'
+            localStorage.setItem('userEmail', document.getElementById('email').value)
+            localStorage.setItem('userPassword', document.getElementById('password').value)
+        }
+        window.onbeforeunload = function() {
+            document.getElementById('loader-container').style.display = 'flex';
+        };
+    </script>
+</body>
+
+</html>

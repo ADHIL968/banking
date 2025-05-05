@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME | BANK</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/bank/home.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <% if(users.length > 0){ %>
+                            <% users.forEach((i)=>{ %>
+                                <div class="row p-0 mt-2" style="background: lightgray;">
+                                    <div class="col-2 d-flex align-items-center">
+                                        <img src="<%= i.photograph %>" alt="" style="width: 100%; aspect-ratio: 1;">
+                                    </div>
+                                    <div class="col-10">
+                                        <p class="m-0 p-2">Name : <%= i.name %></p>
+                                        <p class="m-0 p-2">DOB : <%= i.dob %></p>
+                                        <p class="m-0 p-2">Mobile : <%= i.mobile %></p>
+                                        <p class="m-0 p-2">Aadhar : <%= i.aadhar %></p>
+                                        <p class="m-0 p-2">Address : <%= i.house %>, <%= i.street %>, <%= i.pincode %>, <%= i.district %></p>
+                                    </div>
+                                    <div class="col-12 py-3 px-4 d-flex align-items-center justify-content-between">
+                                        <a href="/bank/rejectaccount/<%= i.id %>" class="reject-button">Reject</a>
+                                        <a href="/bank/approveaccount/<%= i.id %>" class="approve-button">Approve</a>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% }else{ %>
+                            <p class="fw-bold mt-5 fs-2">No account Waiting for Approval</p>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('home').classList.add('sidebar-active')
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+            // setTimeout(() => {
+            //     document.getElementById('msg').innerHTML = null
+            // }, 3000)
+        }
+        window.onbeforeunload = function() {
+            document.getElementById('loader-container').style.display = 'flex';
+        };
+    </script>
+</body>
+
+</html>

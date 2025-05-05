@@ -1,0 +1,48 @@
+.create-account{
+    width: 100%;
+    height: 100dvh;
+}
+
+.b-input{
+    border-radius: 0px;
+    outline: none;
+}
+
+.b-input:focus{
+    box-shadow: none;
+    border: 2px solid green;
+}
+
+.applynow-button{
+    border: none;
+    outline: none;
+    padding: 10px 50px;
+    background: green;
+    color: white;
+}
+
+.applynow-button:hover{
+    background: limegreen;
+}
+
+.applied-section{
+    width: 100%;
+    height: calc(100dvh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.logout{
+    padding: 8px 50px;
+    text-decoration: none;
+    color: white;
+    background: red;
+}
+
+.logout:hover{
+    background: rgb(201, 39, 39);
+}

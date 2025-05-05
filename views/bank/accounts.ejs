@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCOUNTS | BANK</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/bank/home.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <div class="header">
+                            <p class="text-white fs-2 fw-bold text-center py-3">ACCOUNTS</p>
+                        </div>
+                        <ul class="list-group list-group-horizontal rounded-0 w-100">
+                            <li class="list-group-item fw-bold rounded-0 py-3 w-30">Name</li>
+                            <li class="list-group-item fw-bold rounded-0 py-3 w-45">Account Number</li>
+                            <li class="list-group-item fw-bold rounded-0 py-3 w-25">View Profile</li>
+                        </ul>
+                        <% account.forEach((i)=>{ %>
+                            <ul class="list-group list-group-horizontal rounded-0 w-100">
+                                <li class="list-group-item text-capitalize rounded-0 py-3 w-30"><%= i.name %></li>
+                                <li class="list-group-item text-capitalize rounded-0 py-3 w-45"><%= i.accountNumber %></li>
+                                <li class="list-group-item text-capitalize rounded-0 py-3 w-25"><a href="/bank/account/<%= i.id %>/view">View</a></li>
+                            </ul>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('accounts').classList.add('sidebar-active')
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+            // setTimeout(() => {
+            //     document.getElementById('msg').innerHTML = null
+            // }, 3000)
+        }
+        window.onbeforeunload = function() {
+            document.getElementById('loader-container').style.display = 'flex';
+        };
+    </script>
+</body>
+
+</html>

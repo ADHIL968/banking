@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIEW | ACCOUNTS | BANK</title>
+    <link rel="shortcut icon" href="/image/favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/bank/home.css">
+</head>
+
+<body>
+
+    <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div>
+
+
+    <section class="home">
+        <div class="container-xxl">
+            <div class="row">
+                <div class="col-12 col-md-9 order-md-2">
+                    <div class="main-content">
+                        <div class="nav-adjust"></div>
+                        <div class="header">
+                            <p class="text-white fs-2 fw-bold text-center py-3">ACCOUNTS</p>
+                        </div>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">ACCOUNT NUMBER</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.accountNumber %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">NAME</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.name %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">EMAIL</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.email %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">MOBILE</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.mobile %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">DATE OF BIRTH</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.dob %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">AADHAR</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.aadhar %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">ADDRESS</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.house %> , <%= finder.street %> , <%= finder.pincode %> , <%= finder.district %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">UPI ID</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                <%= finder.upi %>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-horizontal b-list">
+                            <li class="list-group-item w-25 rounded-0 b-li">BALANCE</li>
+                            <li class="list-group-item w-75 rounded-0 b-li">
+                                ₹ <%= finder.balance %>
+                            </li>
+                        </ul>
+
+                        <div class="row p-0 py-3 m-0 g-2">
+                            <div class="col-12 col-lg-6">
+                                <form action="/bank/account/<%= finder.id %>/credit" method="post" id="credit-form" class="p-2 p-md-4" onsubmit="loader()">
+                                    <div class="row p-0 g-3">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <!-- <label for="password">Password</label> -->
+                                                <input type="number" class="form-control c-input" id="creditAmount" name="amount" placeholder="Enter amount to credit" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex align-items-center justify-content-center">
+                                            <button type="submit" class="credit-button">Credit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <form action="/bank/account/<%= finder.id %>/debit" method="post" id="credit-form" class="p-2 p-md-4" min="1" onsubmit="loader()">
+                                    <div class="row p-0 g-3">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <!-- <label for="password">Password</label> -->
+                                                <input type="number" class="form-control d-input" id="debitAmount" name="amount" placeholder="Enter amount to debit" min="0" max="<%= finder.balance %>" required onkeyup="verifyBalance()">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-flex align-items-center justify-content-center">
+                                            <button type="submit" class="debit-button">Debit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <input type="text" hidden id="balance" value="<%= finder.balance %>">
+
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <%-include('./sidebar')%>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('accounts').classList.add('sidebar-active')
+        window.onload = function () {
+            document.getElementById('loader-container').style.display = 'none'
+            // setTimeout(() => {
+            //     document.getElementById('msg').innerHTML = null
+            // }, 3000)
+        }
+        function loader(){            
+            document.getElementById('loader-container').style.display='flex'
+        }
+
+        function verifyBalance(){
+            if(parseInt(document.getElementById('balance').value) < parseInt(document.getElementById('debitAmount').value)){
+                document.getElementById('debitAmount').value=null
+                alert(`debit amount cannot exceed ${document.getElementById('balance').value}`)
+            }
+        }
+
+        window.onbeforeunload = function() {
+            document.getElementById('loader-container').style.display = 'flex';
+        };
+    </script>
+</body>
+
+</html>
