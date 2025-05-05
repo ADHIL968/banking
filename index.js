@@ -37,7 +37,7 @@ app.use('/', userAuth)
 app.use('/', validateUserToken, user)
 
 const port = process.env.PORT || 3000
-app.listen(port, '192.168.29.63', () => {
+app.listen(port, () => {
     console.log(`server started @ ${port}`)
     connectDatabase()
     connectCloudinary()
