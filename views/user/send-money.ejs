@@ -63,87 +63,81 @@
         <span id="v-close">
             <i class="bi bi-x-circle-fill" id="b-close"></i>
         </span>
-        <button id="flip">flip</button>
+        <button id="flip">Flip Camera</button>
     </div>
 
     <%-include('./bottom-nav')%>
 
 
-    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+        <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
 
-    <script src="/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-    <script>
-        document.getElementById('send-money').classList.add('sidebar-active')
-        window.onload = function () {
-            document.getElementById('loader-container').style.display = 'none'
-        }
+        <script src="/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+        <script>
+            document.getElementById('send-money').classList.add('sidebar-active')
+            window.onload = function () {
+                document.getElementById('loader-container').style.display = 'none'
+            }
 
-        window.onbeforeunload = function () {
-            document.getElementById('loader-container').style.display = 'flex';
-        }
+            window.onbeforeunload = function () {
+                document.getElementById('loader-container').style.display = 'flex';
+            }
 
-        var video = document.querySelector("#camera-video")
-        var canvas = document.querySelector("#canvas")
-        var ctx = canvas.getContext('2d')
-        var currentStream = null
-        var flipButton = document.querySelector('#flip')
-        var currentFacingMode = 'user';  // 'user' refers to the front-facing camera (selfie camera)
-        async function openCamera() {
-            try {
-                if (navigator.mediaDevices.getUserMedia) {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode } });
-                    // const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-                    currentStream = stream
-                    document.getElementById('camera-video-container').style.display = 'flex'
-                    video.srcObject = stream
-                    video.play()
-                    requestAnimationFrame(scanQRCode)
-                } else {
-                    console.log("no browser support")
+            var video = document.querySelector("#camera-video")
+            var canvas = document.querySelector("#canvas")
+            var ctx = canvas.getContext('2d')
+            var currentStream = null
+            var flipButton = document.querySelector('#flip')
+            var currentFacingMode = 'user'
+            async function openCamera() {
+                try {
+                    if (navigator.mediaDevices.getUserMedia) {
+                        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: currentFacingMode } })
+                        currentStream = stream
+                        document.getElementById('camera-video-container').style.display = 'flex'
+                        video.srcObject = stream
+                        video.play()
+                        requestAnimationFrame(scanQRCode)
+                    } else {
+                        console.log("no browser support")
+                    }
+                } catch (err) {
+                    console.log("Error accessing the camera", err)
+                    alert('Could not access the camera')
                 }
-            } catch (err) {
-                console.log("Error accessing the camera", err)
-                alert('Could not access the camera')
             }
-        }
 
-        flipButton.addEventListener('click', async function() {
-    if (currentStream) {
-        // Stop the current stream tracks before switching
-        currentStream.getTracks().forEach(track => track.stop());
-    }
-
-    // Toggle between front and rear camera
-    currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
-
-    // Restart the camera with the new facing mode
-    openCamera();
-});
+            flipButton.addEventListener('click', async function () {
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                }
+                currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+                openCamera();
+            });
 
 
-        function scanQRCode() {
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
-            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-            var qrCode = jsQR(imageData.data, canvas.width, canvas.height)
+            function scanQRCode() {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+                var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+                var qrCode = jsQR(imageData.data, canvas.width, canvas.height)
 
-            if (qrCode) {
-                console.log(qrCode.data)
-                window.location.href = qrCode.data
+                if (qrCode) {
+                    console.log(qrCode.data)
+                    window.location.href = qrCode.data
+                }
+                requestAnimationFrame(scanQRCode)
             }
-            requestAnimationFrame(scanQRCode)
-        }
 
-        document.getElementById('v-close').addEventListener('click', function () {
-            document.getElementById('camera-video-container').style.display = 'none'
-            if (currentStream) {
-                currentStream.getTracks().forEach(track => track.stop())
-            }
-            video.pause()
-        });
+            document.getElementById('v-close').addEventListener('click', function () {
+                document.getElementById('camera-video-container').style.display = 'none'
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop())
+                }
+                video.pause()
+            });
 
 
-    </script>
+        </script>
 </body>
 
 </html>
