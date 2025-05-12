@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { getHome, getCreateAccount, createAccount, getSendMoney, getSuccess, getNoBalance, getError, getTransaction, getSelectedUpi, sendMoney, incorrectPin } = require('../controller/user')
+const { getHome, getCreateAccount, createAccount, getSendMoney, getSuccess, getNoBalance, getError, getTransaction, getSelectedUpi, sendMoney, incorrectPin, sendToAccount } = require('../controller/user')
 
 router
     .route('/createaccount')
@@ -16,6 +16,9 @@ router
     .route('/sendmoney')
     .get(getSendMoney)
 
+router
+    .route('/sendtoaccount')
+    .post(sendToAccount)
 
 router
     .route('/success/:accountNumber')

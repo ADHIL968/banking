@@ -29,8 +29,9 @@
                         <div class="header">
                             <p class="text-white fs-2 fw-bold text-center py-3">SEND MONEY</p>
                         </div>
-                        <div class="camera-container py-4 d-flex align-items-center justify-content-center">
+                        <div class="camera-container py-4 d-flex flex-column flex-md-row align-items-center justify-content-evenly" style="gap: 10px;">
                             <button class="camera-button" id="camera-button" onclick="openCamera()">Scan QR</button>
+                            <button class="camera-button" id="to-account-button" onclick="openAccountForm()">To Account</button>
                         </div>
                         <div class="upi-container">
                             <div class="row m-0 p-0 g-3">
@@ -65,6 +66,33 @@
         </span>
         <button id="flip">Flip Camera</button>
     </div>
+
+    <form action="/sendtoaccount" class="account-form" method="post">
+        <span id="form-close">
+            <i class="bi bi-x-circle-fill" id="b-close"></i>
+        </span>
+        <div class="row m-0 p-0 g-3 w-100">
+            <div class="col-12">
+                <p class="text-white fw-bold fs-2 text-center">Enter Account Details</p>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <input type="number" placeholder="Account Number" id="accountNumber" class="send-money-input" name="accountNumber" required>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <input type="number" placeholder="Mobile Number" id="mobileNumber" class="send-money-input" name="mobileNumber" required>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <input type="number" placeholder="Amount" id="amount" class="send-money-input" name="amount" required>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <input type="number" placeholder="PIN" id="pin" class="send-money-input" name="pin" required>
+            </div>
+            <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                <button class="send-money-button" id="pay-button" type="submit">Pay</button>
+            </div>
+        </div>
+    </form>
+
 
     <%-include('./bottom-nav')%>
 
@@ -136,6 +164,17 @@
                 video.pause()
             });
 
+            function openAccountForm(){
+                document.querySelector('.account-form').style.display='flex'
+            }
+
+            document.getElementById('form-close').addEventListener('click', function () {
+                document.getElementById('accountNumber').value=null
+                document.getElementById('mobileNumber').value=null
+                document.getElementById('amount').value=null
+                document.getElementById('pin').value=null
+                document.querySelector('.account-form').style.display = 'none'
+            });
 
         </script>
 </body>

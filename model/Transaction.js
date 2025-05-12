@@ -9,7 +9,8 @@ const transaction = new mongoose.Schema(
         recieverAccount: String,
         recieverUpi: String,
         amount: String,
-        date:String
+        date: String,
+        mode:String
     }
 )
 

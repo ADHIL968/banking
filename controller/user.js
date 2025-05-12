@@ -7,9 +7,6 @@ const crypto = require('crypto')
 const dayjs = require('dayjs')
 const QRCode = require('qrcode')
 
-// exports.getCreateAccount = (req, res) => {
-//     return res.render('user/create-account')
-// }
 exports.createAccount = async (req, res) => {
     try {
         const finder = await User.findOne({ id: req.user.id })
@@ -37,10 +34,9 @@ exports.getHome = async (req, res) => {
     try {
         const finder = await User.findOne({ id: req.user.id })
         if (!finder.approved) {
-            return res.clearCookie('userToken').render('user/create-account', { applied: finder.applied, rejected: finder.rejected })
+            return res.render('user/create-account', { applied: finder.applied, rejected: finder.rejected })
         }
         const url = req.protocol + '://' + req.get('host') + '/sendmoney/' + finder.accountNumber + '/send'
-        console.log(url)
         QRCode.toDataURL(url, (err, qrCodeUrl) => {
             if (err) {
                 return res.redirect('/error')
@@ -59,6 +55,40 @@ exports.getSendMoney = async (req, res) => {
         const finder = await User.findOne({ id: req.user.id })
         const upi = await Upi.find({ accountNumber: { $ne: finder.accountNumber } })
         return res.render('user/send-money', { finder, upi })
+    } catch (error) {
+        console.log(error)
+        return res.redirect('/error')
+    }
+}
+
+exports.sendToAccount = async (req, res) => {
+    try {
+        const finder = await User.findOne({ id: req.user.id })
+        if (finder.pin != req.body.pin) {
+            return res.render('user/incorrect-pin-account')
+        }
+        if (parseInt(finder.balance) < parseInt(req.body.amount)) {
+            return res.render('user/no-balance-account')
+        }
+        const reciever = await User.findOne({ accountNumber: req.body.accountNumber, mobile: req.body.mobileNumber })
+        if (!reciever) {
+            return res.render('user/no-user')
+        }
+        finder.balance = parseInt(finder.balance) - parseInt(req.body.amount)
+        await finder.save()
+        reciever.balance = parseInt(reciever.balance) + parseInt(req.body.amount)
+        await reciever.save()
+        await Transaction.create({
+            id: crypto.randomUUID(),
+            senderAccount: finder.accountNumber,
+            senderUpi: finder.upi,
+            recieverAccount: reciever.accountNumber,
+            recieverUpi: reciever.upi,
+            amount: req.body.amount,
+            mode: 'account',
+            date: dayjs().format('DD-MM-YY HH:mm:ss')
+        })
+        return res.render('user/success-account')
     } catch (error) {
         console.log(error)
         return res.redirect('/error')
@@ -113,6 +143,7 @@ exports.sendMoney = async (req, res) => {
             recieverAccount: reciever.accountNumber,
             recieverUpi: reciever.upi,
             amount: amount,
+            mode: 'upi',
             date: dayjs().format('DD-MM-YY HH:mm:ss')
         })
         return res.redirect(`/success/${reciever.accountNumber}`)

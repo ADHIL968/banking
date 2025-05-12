@@ -1,7 +1,14 @@
 @font-face {
-    font-family: Montserrat;
-    src: url(/font/Montserrat-VariableFont_wght.ttf);
+    font-family: LexendDeca;
+    src: url(/fonts/LexendDeca.ttf);
 }
+
+@font-face {
+    font-family: Montserrat;
+    src: url(/fonts/Montserrat.ttf);
+}
+
+
 
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
@@ -12,9 +19,9 @@
     outline: none;
     box-sizing: border-box;
     transition: .15s ease-in-out;
-    font-family: Montserrat;
+    font-family: LexendDeca, Montserrat;
     word-break: break-all;
-    
+
 }
 
 input[type="number"]::-webkit-outer-spin-button,

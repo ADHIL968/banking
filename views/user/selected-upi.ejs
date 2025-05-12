@@ -55,20 +55,22 @@
                                 </section>
                             </form>
                             <% transaction.forEach((i)=>{ %>
-                                <% if(i.senderUpi == finder.upi){ %>
-                                    <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
-                                        <p class="m-0 py-2">Transaction id : <%= i.id %></p>
-                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
-                                        <p class="m-0 py-2">Sent To : <%= i.recieverUpi %></p>
-                                        <p class="m-0 py-2">Date : <%= i.date %></p>
-                                    </div>
-                                <% }else{ %>
-                                    <div class="transaction-card p-2 mt-2" style="background: green;">
-                                        <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
-                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
-                                        <p class="m-0 py-2">Recieved From : <%= i.senderUpi %></p>
-                                        <p class="m-0 py-2">Date : <%= i.date %></p>
-                                    </div>
+                                <% if(i.mode == 'upi'){ %>
+                                    <% if(i.senderUpi == finder.upi){ %>
+                                        <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
+                                            <p class="m-0 py-2">Transaction id : <%= i.id %></p>
+                                            <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                            <p class="m-0 py-2">Sent To : <%= i.recieverUpi %></p>
+                                            <p class="m-0 py-2">Date : <%= i.date %></p>
+                                        </div>
+                                    <% }else{ %>
+                                        <div class="transaction-card p-2 mt-2" style="background: green;">
+                                            <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                            <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                            <p class="m-0 py-2">Recieved From : <%= i.senderUpi %></p>
+                                            <p class="m-0 py-2">Date : <%= i.date %></p>
+                                        </div>
+                                    <% } %>
                                 <% } %>
                             <% }) %>
                         </div>
@@ -107,10 +109,11 @@
                     document.getElementById('pin-section').style.display='flex'
                 }else{
                     document.getElementById('amount').value=null
-                    alert('min amount to pay is 1 rs')
+                    confirm('min amount to pay is 1 rs')
                 }
             }else{
-                alert('enter amount to pay')
+                document.getElementById('amount').value=null
+                confirm('enter amount to pay')
             }
         }
 

@@ -29,20 +29,38 @@
                             <p class="text-white fs-2 fw-bold text-center py-3">TRANSACTION</p>
                         </div>
                         <% transaction.forEach((i)=>{ %>
-                            <% if(i.senderUpi == finder.upi){ %>
-                                <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
-                                    <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
-                                    <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
-                                    <p class="m-0 py-2">Sent To : <%= i.recieverUpi %></p>
-                                    <p class="m-0 py-2">Date : <%= i.date %></p>
-                                </div>
+                            <% if(i.mode == 'upi'){ %>
+                                <% if(i.senderUpi == finder.upi){ %>
+                                    <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
+                                        <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                        <p class="m-0 py-2">Sent To : <%= i.recieverUpi %></p>
+                                        <p class="m-0 py-2">Date : <%= i.date %></p>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="transaction-card p-2 mt-2" style="background: green;">
+                                        <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                        <p class="m-0 py-2">Recieved From : <%= i.senderUpi %></p>
+                                        <p class="m-0 py-2">Date : <%= i.date %></p>
+                                    </div>
+                                <% } %>
                             <% }else{ %>
-                                <div class="transaction-card p-2 mt-2" style="background: green;">
-                                    <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
-                                    <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
-                                    <p class="m-0 py-2">Recieved From : <%= i.senderUpi %></p>
-                                    <p class="m-0 py-2">Date : <%= i.date %></p>
-                                </div>
+                                <% if(i.senderUpi == finder.upi){ %>
+                                    <div class="transaction-card p-2 mt-2" style="background: rgb(177, 53, 53);">
+                                        <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                        <p class="m-0 py-2">Sent To : <%= i.recieverAccount %></p>
+                                        <p class="m-0 py-2">Date : <%= i.date %></p>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="transaction-card p-2 mt-2" style="background: green;">
+                                        <p class="m-0 py-2">Transaction Id : <%= i.id %></p>
+                                        <p class="m-0 py-2">Amount : ₹ <%= i.amount %></p>
+                                        <p class="m-0 py-2">Recieved From : <%= i.senderAccount %></p>
+                                        <p class="m-0 py-2">Date : <%= i.date %></p>
+                                    </div>
+                                <% } %>
                             <% } %>
                         <% }) %>
                         <div class="nav-adjust"></div>
